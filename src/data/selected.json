@@ -1,0 +1,10 @@
+[
+	{
+		"online": false,
+		"avatarSrc": "../assets/images/avatars/five.jpg"
+	},
+	{
+		"online": true,
+		"avatarSrc": "../assets/images/avatars/two.jpg"
+	}
+]

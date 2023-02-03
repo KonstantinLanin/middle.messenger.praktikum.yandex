@@ -1,0 +1,32 @@
+/* Страницы */
+@import "../pages/change-password/change-password.css";
+@import "../pages/chat/chat.css";
+@import "../pages/profile/profile.css";
+@import "../pages/sign-in/sign-in.css";
+@import "../pages/sign-up/sign-up.css";
+
+/* Компоненты */
+@import "../partials/chat-box/chat-box.css";
+@import "../partials/message-box/message-box.css";
+@import "../partials/post-board/post-board.css";
+@import "../partials/selected-chats/selected-chats.css";
+@import "../partials/user-card/user-card.css";
+@import "../partials/users-board/users-board.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main {
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: lightblue;
+  gap: 10px;
+}
