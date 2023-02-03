@@ -1,0 +1,42 @@
+.message-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2vh;
+  width: auto;
+}
+
+.message-box:last-child {
+    margin-bottom: 3px;
+}
+
+.message-box__message_type__time,
+.message-box__message_type_taken,
+.message-box__message_type_sended,
+.message-box__emoji {
+    padding: 5px;
+  }
+
+.message-box__time {
+    width: fit-content;
+    border-radius: 8px 8px 0 0;
+}
+
+.message-box__message_type_taken,
+.message-box__message_type_sended {
+    max-width: 75%;
+    width: fit-content;
+}
+
+.message-box__message_type_taken {
+    border-radius: 0 8px 8px 0;
+}
+
+.message-box__message_type_sended {
+    border-radius: 8px 0 0 8px;
+}
+
+.message-box__emoji {
+    width: fit-content;
+    border-radius: 0 0 8px 8px;
+}
+
