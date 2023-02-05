@@ -1,0 +1,50 @@
+$title_font-size: 40px;
+$message_font-size: 28px;
+$text_font-size: 24px;
+$description_font-size: 24px;
+
+/* Основные */
+$initial_background: pink;
+$line_color: gray;
+$line_background: gray;
+
+$box-shadow-1: gray;
+$box-shadow-2: gray;
+$box-shadow-3: gray;
+$box-shadow-4: gray;
+$box-shadow-5: gray;
+$box-shadow-6: gray;
+
+/* Поле ввода */
+$input_color: white;
+$input_background: gray;
+$input_box-shadow: light-gray;
+
+/* Полоса прокрутки */
+$scrollbar-track_background: $line_color;
+$scrollbar-thumb_background: gray;
+
+/* Чат */
+$chat_background: pink;
+
+$chat-message-taken_background: gray;
+$chat-message-taken_color: black;
+$chat-message-taken_box-shadow: gray;
+
+$chat-message-sended_background: violet;
+$chat-message-sended_color: black;
+$chat-message-sended_box-shadow: violet;
+
+/* Карточка пользователя */
+$user-card_background: violet;
+$user-card_box-shadow: violet;
+$user-card_border-color: violet;
+
+$online_background: green;
+$offline_background: red;
+
+$display-name_color: black;
+$last-message_color: black;
+
+$overall-info_color: black;
+$overall-info_background: pink;

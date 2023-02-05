@@ -1,9 +1,11 @@
-const express = require("express");
-const port = 3001;
+const express = require('express');
+require('dotenv').config();
 const app = express();
 
-app.use(express.static(__dirname + "/dist"));
+const port = process.env.PORT || 3000;
+
+app.use(express.static(__dirname + '/dist'));
 
 app.listen(port, () => {
-  console.log(`Приложение слушает порт: ${port}`);
+	console.log(`Приложение слушает порт: ${port}`);
 });
