@@ -10,13 +10,11 @@ interface ChatlistItemProps {
     onClick: () => void;
 }
 
-export class ChatlistItem extends Block {
+export class ChatlistItem extends Block<ChatlistItemProps> {
     static componentName = 'ChatlistItem';
 
-    constructor({ onClick, ...props }: ChatlistItemProps) {
-        super({
-        ...props, events: { click: onClick },
-        });
+    constructor({ ...props }: ChatlistItemProps) {
+        super({ ...props });
 }
 
     render(): string {

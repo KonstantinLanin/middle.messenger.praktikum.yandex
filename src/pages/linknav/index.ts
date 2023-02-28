@@ -15,9 +15,11 @@ export class LinkPage extends Block {
             <div class="container">
                 <div class="container-align-center">
                     <div>{{ variable }}</div>
-                    {{{ button label="Hey asd"
-                                    styles="button-form"
-                                    background="button-background-default"}}}
+                    {{{button type="submit"
+                            label="Hey asd"
+                            styles="button-form"
+                            background="button-background-default"
+                    }}}
                     <h1>Pages list</h1>
                 </div>
                 <div class="ul-wrap">

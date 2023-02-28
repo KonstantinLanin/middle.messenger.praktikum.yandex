@@ -10,7 +10,7 @@ interface AccountInputProps extends InputProps {
     isValid: boolean;
 }
 
-export class AccountInput extends Block {
+export class AccountInput extends Block<AccountInputProps> {
     static componentName = 'AccountInput';
 
     constructor({
@@ -24,8 +24,8 @@ export class AccountInput extends Block {
             const { name } = input;
             const [flag, text] = Validator.validate(<ValidationType>name, value);
             this.refs.error.setProps({
-            isValid: flag,
-            validateMessage: text,
+                isValid: flag,
+                validateMessage: text,
             });
         },
 

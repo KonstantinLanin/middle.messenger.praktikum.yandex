@@ -1,6 +1,5 @@
 import Block from '../../utils/block';
 import './accountEdit.css';
-
 import { Validation } from '../../utils/validation';
 
 export class AccountEdit extends Block {
@@ -20,7 +19,7 @@ export class AccountEdit extends Block {
     render() {
         return `
             {{#AccountLayout}}
-                {{#Form  formWrap="form-account-wrap"}}
+                {{#Form formWrap="form-account-wrap"}}
 
                 {{#Avatar styles="avatar-default"}}
                     <label for="avatar" class="input-avatar-label">Change avatar</label>
@@ -100,7 +99,8 @@ export class AccountEdit extends Block {
                 }}}
             
 
-                {{{Button label="Save"
+                {{{Button type="submit"
+                        label="Save"
                         styles="button-form"
                         background="button-background-main"
                         onClick=onSave

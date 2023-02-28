@@ -9,27 +9,24 @@ interface ButtonProps {
     type?: "button" | "submit";
     onClick: () => void;
     onSubmit: () => void;
+    events: Record<string, unknown>;
 }
 
-export class Button extends Block {
+export class Button extends Block<ButtonProps> {
     static componentName = 'Button';
 
-    constructor({
-        label, background, styles, type, onClick, onSubmit,
-    }: ButtonProps) {
-        super({
-        label, background, styles, type, events: { click: onClick, submit: onSubmit },
-        });
-}
+    constructor({ ...props }: ButtonProps) {
+        super({ ...props, events: { click: props.onClick, submit: props.onSubmit } });
+    }
 
     render(): string {
         return `
         <div class="button-container">
             <div class="button-wrap">
             <div class="{{background}}"></div>
-                <button  class="{{styles}}" type="{{type}}">
-                {{label}}
-            </button>
+                <button class="{{styles}}" type="{{type}}">
+                    {{label}}
+                </button>
             </div>
         </div>
         `;

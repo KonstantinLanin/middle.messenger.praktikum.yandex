@@ -11,16 +11,16 @@ interface LinkProps {
     linkBroder?: string;
 }
 
-export class Link extends Block {
+export class Link extends Block<LinkProps> {
     static componentName = 'Link';
 
     constructor({
         linkWrap, styles, href, background, title, linkBroder,
     }: LinkProps) {
         const onClick = (e: MouseEvent) => {
-        // console.log('link click', e.offsetX);
-        e.preventDefault();
-        window.location.replace(href);
+            // console.log('link click', e.offsetX);
+            e.preventDefault();
+            window.location.replace(href);
         };
 
         super({

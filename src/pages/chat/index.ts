@@ -1,5 +1,4 @@
 import Block from '../../utils/block';
-
 import './chat.css';
 
 type ChatPageProps = {
@@ -34,11 +33,17 @@ export class Chat extends Block {
                         {{{Avatar styles="avatar-chat-default"}}}
                         <span class="chat-avatar-account-title"> {{accountName}} </span>
                 
-                        {{{Button styles="button-chat-form button-background-exit-right"}}}
+                        {{{Button type="submit" 
+                                styles="button-chat-form  
+                                button-background-exit-right"
+                        }}}
                 </div>
             <div class="line-decor-wrap"><div class="line-decor-marine"></div></div>
             <div class="chatlist-content-wrap-container">
-                {{{Button styles="button-chat-form button-background-add"}}}
+                {{{Button type="submit"
+                    styles="button-chat-form 
+                    button-background-add"
+                }}}
                 <div class="search-wrap">
                     {{{Input
                         ref="search"
@@ -78,10 +83,13 @@ export class Chat extends Block {
                         
                         <div class="chat-recipient">
                             {{{Avatar styles="avatar-chatlist"}}}
-                                <span class="chat-avatar-account-title"> First </span>
-                                <div class="chat-button-align"> 
-                            
-                            {{{Button styles="button-chat-form button-background-dots"}}}</div>
+                            <span class="chat-avatar-account-title"> First </span>
+                            <div class="chat-button-align"> 
+                                {{{Button type="submit"
+                                        styles="button-chat-form 
+                                        button-background-dots"
+                                }}}
+                            </div>
                         </div>
                         <div class="chat-content">
                         <div class="message-me">Привет!</div>
@@ -89,22 +97,27 @@ export class Chat extends Block {
 
                         </div>
                         <div class="chat-form">
-                        
-                        {{{Button styles="button-chat-form button-background-clip"}}}
-                            <div class="search-wrap">
-                                {{{Input
-                                    ref="message"
-                                    styles="input"
-                                    type="text"
-                                    name="message"
-                                    id="message"
-                                    placeholder="Message"
-                                    onFocus=onFocus
-                                    onBlur=onBlur
-                                    onChange=onChange
-                                }}}
-                            </div>
-                        {{{Button styles="button-chat-form button-background-right-arrow" onClick=onMessage}}}
+                        {{{Button type="submit"
+                            styles="button-chat-form 
+                            button-background-clip"
+                        }}}
+                        <div class="search-wrap">
+                            {{{Input
+                                ref="message"
+                                styles="input"
+                                type="text"
+                                name="message"
+                                id="message"
+                                placeholder="Message"
+                                onFocus=onFocus
+                                onBlur=onBlur
+                                onChange=onChange
+                            }}}
+                        </div>
+                        {{{Button type="submit"
+                            styles="button-chat-form button-background-right-arrow"
+                            onClick=onMessage
+                        }}}
                     </div>
                     
                     {{else}}

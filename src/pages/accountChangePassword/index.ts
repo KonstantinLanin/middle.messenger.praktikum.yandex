@@ -18,7 +18,7 @@ export class AccountChangePassword extends Block {
     render() {
         return `
         {{#AccountLayout}}
-            {{#Form  formWrap="form-account-wrap"}}
+            {{#Form formWrap="form-account-wrap"}}
 
             {{{Avatar styles="avatar"}}}
 
@@ -58,7 +58,8 @@ export class AccountChangePassword extends Block {
                             onChange=onChange
             }}}
 
-            {{{Button label="Save"
+            {{{Button type="submit"
+                    label="Save"
                     styles="button-form"
                     background="button-background-main"
                     onClick=onReg

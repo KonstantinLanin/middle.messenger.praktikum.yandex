@@ -8,13 +8,15 @@ export class Registration extends Block {
                 const element = this.getContent();
                 const inputs = element?.querySelectorAll('input');
                 const loginData = Validation (inputs, this.refs);
+
+                console.log('inputs/registration', loginData);
         },
     };
 }
 
     render() {
         return `
-            {{#Form  title="Registration" formWrap="form-login-wrap"}}
+            {{#Form title="Registration" formWrap="form-login-wrap"}}
 
             {{{WrappedInput title="Email"
                 styles="input input-icon-left input-email"
@@ -100,7 +102,8 @@ export class Registration extends Block {
                 onChange=onChange
             }}}
 
-            {{{Button label="Register"
+            {{{Button type="submit"
+                label="Register"
                 styles="button-form"
                 background="button-background-main"
                 onClick=onReg

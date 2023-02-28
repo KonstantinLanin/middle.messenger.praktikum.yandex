@@ -8,9 +8,10 @@ interface WrappedInputProps extends InputProps {
     validationType: ValidationType;
     validateMessage: string;
     isValid: boolean;
+    onCheck?: (e: FocusEvent) => void;
 }
 
-export class WrappedInput extends Block {
+export class WrappedInput extends Block<WrappedInputProps> {
     static componentName = 'WrappedInput';
 
     constructor({
@@ -34,22 +35,22 @@ export class WrappedInput extends Block {
 
     protected render(): string {
         return `
-            <div class="input-wrap">
-            <span class="input-label">{{title}}</span>
-            {{{Input
-                    title=title
-                    styles=styles
-                    type=type
-                    name=name
-                    placeholder=placeholder
-                    onFocus=onCheck
-                    onBlur=onCheck
-                    onChange=onChange
-                    
-            }}}
-            <div class="input-border"></div>
-            {{{ErrorInput validateMessage="Невалидное значение" isValid=true ref="error"}}}
-            </div>
-        `;
+                <div class="input-wrap">
+                <span class="input-label">{{title}}</span>
+                {{{Input
+                        title=title
+                        styles=styles
+                        type=type
+                        name=name
+                        placeholder=placeholder
+                        onFocus=onCheck
+                        onBlur=onCheck
+                        onChange=onChange
+                        
+                }}}
+                <div class="input-border"></div>
+                {{{ErrorInput validateMessage="Невалидное значение" isValid=true ref="error"}}}
+                </div>
+            `;
     }
 }

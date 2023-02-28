@@ -8,6 +8,8 @@ export class Login extends Block {
             const element = this.getContent();
             const inputs = element?.querySelectorAll('input');
             const loginData = Validation (inputs, this.refs);
+
+            console.log('inputs/login', loginData);
         },
 
     };
@@ -43,10 +45,11 @@ export class Login extends Block {
                 onChange=onChange
             }}}
             
-            {{{Button label="Log In"
-                styles="button-form"
-                background="button-background-main"
-                onClick=onLogin
+            {{{Button type="submit"
+                    label="Log In"
+                    styles="button-form"
+                    background="button-background-main"
+                    onClick=onLogin
             }}}
             
             {{{Link title="Register"
