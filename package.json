@@ -4,9 +4,9 @@
   "description": "simple chat",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel -p 3001 src/index.html  --no-cache --open",
-    "build": "parcel build src/index.html --no-cache --public-url ./",
-    "start": "parcel src/index.html && node ./server.js",
+    "dev": "parcel -p 3001 src/index.html  --no-cache --open ",
+    "build": "parcel build src/index.html --no-cache --public-url ./ ",
+    "start": "parcel src/index.html && node ./server.js ",
     "eslint": "./node_modules/.bin/eslint . --fix",
     "stylelint": "npx stylelint '**/*.css'"
   },
