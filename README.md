@@ -12,6 +12,5 @@
 Login: UserOne<br/>
 Password: Wti-6X6-yYy-Qbe<br/>
 <br/>
-<br/>
 Login: UserTwo<br/>
 Password: t3T-fPg-7a6-YVR<br/>
