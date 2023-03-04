@@ -1,13 +1,16 @@
-import { renderDOM, registerComponent } from './utils';
+import { registerComponent } from './utils';
+import Router, { routes } from './utils/router';
+import AuthController from './controllers/loginController';
+import ChatsController from './controllers/chatsController';
+import store from './utils/store';
 
 import { Login } from './pages/login';
-import { LinkPage } from './pages/linknav';
 import { Error } from './pages/error';
 import { Account } from './pages/account';
 import { Registration } from './pages/registration';
 import { AccountChangePassword } from './pages/accountChangePassword';
 import { AccountEdit } from './pages/accountEdit';
-import { Chat } from './pages/chat';
+import { Chats } from './pages/chat';
 
 import './main.css';
 
@@ -20,103 +23,71 @@ import { AccountInput } from './components/accountInput';
 import { ErrorInput } from './components/errorInput';
 import { AccountLayout } from './components/accountPage';
 import { Avatar } from './components/avatar';
+import { Chatlist } from './components/chatlist';
 import { ChatlistItem } from './components/chatlistItem';
+import { Chat } from './components/chat';
+import { Message } from './components/chatMessage';
+import { Modal } from './components/modal';
 
 require('babel-core/register');
 
-registerComponent(Button);
-registerComponent(Link);
-registerComponent(Form);
-registerComponent(Input);
-registerComponent(WrappedInput);
-registerComponent(AccountInput);
-registerComponent(ErrorInput);
-registerComponent(AccountLayout);
-registerComponent(Avatar);
-registerComponent(ChatlistItem);
+document.addEventListener('DOMContentLoaded', async () => {
+    registerComponent(Button);
+    registerComponent(Link);
+    registerComponent(Form);
+    registerComponent(Input);
+    registerComponent(WrappedInput);
+    registerComponent(AccountInput);
+    registerComponent(ErrorInput);
+    registerComponent(AccountLayout);
+    registerComponent(Avatar);
+    registerComponent(Chatlist);
+    registerComponent(ChatlistItem);
+    registerComponent(Chat);
+    registerComponent(Message);
+    registerComponent(Modal);
 
-const accountData = {
-    dataName: 'Konstantin',
-    data: [
-        { name: 'Email', value: 'sparky@yandex.ru' },
-        { name: 'Login', value: 'Konstantin' },
-        { name: 'Name', value: 'Konstantin' },
-        { name: 'Last name', value: 'Lanin' },
-        { name: 'Chat name', value: 'Konstantin' },
-        { name: 'Phone', value: '+7 (925) 421-80-10' },
-    ],
-};
+    const router = new Router();
+    const routesValues = Object.values(routes);
 
-const linkArray = {
-    variable: '.',
-    links: [
-        { title: 'Log In', styles: 'link ', href: '/login.html' },
-        { title: 'Register', styles: 'link ', href: '/registration.html' },
-        { title: 'Page 404', styles: 'link ', href: '/error.html' },
-        { title: 'Page 500', styles: 'link ', href: '/error500.html' },
-        { title: 'Chats', styles: 'link ', href: '/chat.html' },
-        { title: 'Settings', styles: 'link ', href: '/account.html' },
-        { title: 'Edit account', styles: 'link ', href: '/accountEdit.html' }
-    ],
-};
+    router
+        .use(routes.start, Login)
+        .use(routes.registration, Registration)
+        .use(routes.account, Account)
+        .use(routes.accountEdit, AccountEdit)
+        .use(routes.accountChangePassword, AccountChangePassword)
+        .use(routes.chats, Chats)
+        .use(routes.error, Error);
 
-const chatData = {
-    accountName: 'Konstantin',
-    chatlistItems: [
-        {
-            displayName: 'Second', 
-            messageTime: '00:00', 
-            avatar: 'static/avatars/two.jpg', 
-            message: 'Message 1', 
-            messageCount: 1,
-        },
-        {
-            displayName: 'Third', 
-            messageTime: 'Monday', 
-            avatar: 'static/avatars/three.jpg', 
-            message: 'Message 2', 
-            messageCount: 0,
-        },
-    ],
-    isChat: true,
-    };
-
-const error404 = {
-    title: '404',
-    text: 'Oooops!',
-};
-
-const error500 = {
-    title: '500',
-    text: 'Wow!',
-};
-
-function getPage(pathname: string) {
-    let app: any;
-
-    if (pathname === '/') {
-        app = new LinkPage(linkArray);
-    } else if (pathname === '/login.html') {
-        app = new Login();
-    } else if (pathname === '/registration.html') {
-        app = new Registration();
-    } else if (pathname === '/error500.html') {
-        app = new Error(error500);
-    } else if (pathname === '/chat.html') {
-        app = new Chat(chatData);
-    } else if (pathname === '/account.html') {
-        app = new Account(accountData);
-    } else if (pathname === '/accountChangePassword.html') {
-        app = new AccountChangePassword();
-    } else if (pathname === '/accountEdit.html') {
-        app = new AccountEdit();
-    } else {
-        app = new Error(error404);
+    let isNeedAuth = true;
+    switch (window.location.pathname) {
+        case routes.start:
+        case routes.registration:
+        isNeedAuth = false;
+        break;
     }
-    return app;
-}
 
-window.addEventListener('DOMContentLoaded', () => {
-  const App = getPage(window.location.pathname);
-  renderDOM(App);
+    if (routesValues.includes(window.location.pathname as routes)) {
+        try {
+            await AuthController.fetchUser();
+            await ChatsController.get();
+            router.start();
+
+            if (!isNeedAuth) {
+                router.go(routes.chats);
+            }
+        } catch (e) {
+            console.log('User request error:', e);
+            store.set('currentUser', null);
+            router.start();
+
+            if (isNeedAuth) {
+                router.go(routes.start);
+            }
+        }
+    } else {
+        console.log('404', window.location.pathname);
+        router.start();
+        router.go(routes.error);
+    }
 });

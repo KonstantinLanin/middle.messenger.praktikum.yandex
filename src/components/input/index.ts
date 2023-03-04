@@ -1,5 +1,4 @@
 import Block from '../../utils/block';
-
 import './input.css';
 
 export interface InputProps {
@@ -27,11 +26,13 @@ export class Input extends Block<InputProps> {
 
     protected render(): string {
         return `
-            <input  value="{{value}}"
-                    type="{{type}}"
-                    name="{{name}}"
-                    class="{{styles}}"
-                    placeholder="{{placeholder}}">
+            <input  
+                id="{{id}}"
+                value="{{value}}"
+                type="{{type}}"
+                name="{{name}}"
+                class="{{styles}}"
+                placeholder="{{placeholder}}">
         `;
     }
 }

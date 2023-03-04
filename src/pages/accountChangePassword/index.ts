@@ -1,34 +1,46 @@
 import Block from '../../utils/block';
 import {Validation } from '../../utils/validation';
+import { withUser } from '../../utils/store';
+import AccountController from '../../controllers/accountController';
+import { AccountPasswordData } from '../../api/accountApi';
+interface AccountChangePasswordBaseProps extends AccountPasswordData{
+    onReg?: () => void;
+    onClick?: () => void;
+}
 
-export class AccountChangePassword extends Block {
-    protected getStateFromProps() {
-        this.state = {
-        onReg: () => {
-            const element = this.getContent();
-            const inputs = element?.querySelectorAll('input');
-            const loginData = Validation (inputs, this.refs);
-
-            console.log('inputs/AccountChangePassword', loginData);
-        },
-
-    };
+export class AccountChangePasswordBase extends Block<AccountChangePasswordBaseProps> {
+    constructor(props: any) {
+        super({
+            ...props,
+            onClick: () => AccountController.toAccount(),
+            onReg: async () => {
+                const element = this.getContent();
+                const inputs = element?.querySelectorAll('input');
+                const [loginData, isValid] = Validation(inputs, this.refs);
+    
+            if (isValid) {
+                await AccountController.changePassword(loginData as unknown as AccountPasswordData);
+            }
+            },
+        });
 }
 
     render() {
         return `
-        {{#AccountLayout}}
+        {{#AccountLayout onClick = onClick}}
             {{#Form formWrap="form-account-wrap"}}
 
-            {{{Avatar styles="avatar"}}}
+            {{{Avatar styles="avatar-default" avatar=avatar }}}
+
+            <span class="form-account-title">  {{ login }} </span>
 
             {{{AccountInput title="Old password"
                             styles="account-input"
                             type="password"
-                            name="old_password"
+                            name="oldPassword"
                             placeholder="Old password"
-                            ref="old_password"
-                            id="old_password"
+                            ref="oldPassword"
+                            id="oldPassword"
                             onFocus=onFocus
                             onBlur=onBlur
                             onChange=onChange
@@ -37,10 +49,10 @@ export class AccountChangePassword extends Block {
             {{{AccountInput title="Password"
                             styles="account-input"
                             type="password"
-                            name="password"
+                            name="newPassword"
                             placeholder="Password"
-                            ref="password"
-                            id="password"
+                            ref="newPassword"
+                            id="newPassword"
                             onFocus=onFocus
                             onBlur=onBlur
                             onChange=onChange
@@ -49,10 +61,10 @@ export class AccountChangePassword extends Block {
             {{{AccountInput title="Password (repeat)"
                             styles="account-input"
                             type="password"
-                            name="repeat_password"
+                            name="repeatPassword"
                             placeholder="Password"
-                            ref="repeat_password"
-                            id="repeat_password"
+                            ref="repeatPassword"
+                            id="repeatPassword"
                             onFocus=onFocus
                             onBlur=onBlur
                             onChange=onChange
@@ -72,3 +84,5 @@ export class AccountChangePassword extends Block {
 
         `;
 }}
+
+export const AccountChangePassword = withUser(AccountChangePasswordBase);

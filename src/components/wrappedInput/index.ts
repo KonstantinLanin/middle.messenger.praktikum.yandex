@@ -25,8 +25,8 @@ export class WrappedInput extends Block<WrappedInputProps> {
             const { name } = input;
             const [valid, text] = Validator.validate(<ValidationType>name, value);
             this.refs.error.setProps({
-            isValid: valid,
-            validateMessage: text,
+                isValid: valid,
+                validateMessage: text,
             });
         },
 
@@ -38,6 +38,8 @@ export class WrappedInput extends Block<WrappedInputProps> {
                 <div class="input-wrap">
                 <span class="input-label">{{title}}</span>
                 {{{Input
+                        id=id
+                        value=value
                         title=title
                         styles=styles
                         type=type
@@ -49,7 +51,7 @@ export class WrappedInput extends Block<WrappedInputProps> {
                         
                 }}}
                 <div class="input-border"></div>
-                {{{ErrorInput validateMessage="Невалидное значение" isValid=true ref="error"}}}
+                {{{ErrorInput validateMessage="Invalid value" isValid=true ref="error"}}}
                 </div>
             `;
     }

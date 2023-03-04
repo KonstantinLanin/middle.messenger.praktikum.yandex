@@ -12,7 +12,7 @@ export class Form extends Block<FormProps> {
 
     constructor(props: FormProps) {
         const onClick = (e: MouseEvent) => {
-        e.preventDefault();
+            e.preventDefault();
         };
 
         super({ ...props, events: { click: onClick } });
@@ -25,7 +25,7 @@ export class Form extends Block<FormProps> {
                     <div class="{{formWrap}}">
                         <form class="form">
                         <span class="form-title"> {{title}}</span>
-                        <div data-layout=1></div>
+                        <div data-slot=1></div>
                         </form>
                     </div>
                 </div>
