@@ -28,7 +28,7 @@ export interface BlockClass<P> extends Function {
 
     public constructor(props?: P) {
         const eventBus = new EventBus<Events>();
-        this.getStateFromProps(props as P);
+        this.getStateFromProps(props);
         this.props = props || ({} as P); 
         this.state = this._makePropsProxy(this.state);
         this.eventBus = () => eventBus;
@@ -47,7 +47,7 @@ export interface BlockClass<P> extends Function {
         this._element = this._createDocumentElement('div');
     }
 
-    protected getStateFromProps(props: P): void {
+    protected getStateFromProps(props: any): void {
         this.state = {};
     }
 
@@ -65,7 +65,7 @@ export interface BlockClass<P> extends Function {
     _componentDidUpdate(oldProps: P, newProps: P) {
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
-        return;
+            return;
         }
         this._render();
     }
@@ -138,7 +138,7 @@ export interface BlockClass<P> extends Function {
             return true;
         },
         deleteProperty() {
-            throw new Error('Нет доступа');
+            throw new Error('No acces');
         },
         }) as unknown as P;
     }
@@ -213,5 +213,5 @@ export interface BlockClass<P> extends Function {
 
     hide() {
         this.getContent().style.display = 'none';
-  }
+    }
 }
