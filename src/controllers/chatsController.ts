@@ -64,7 +64,6 @@ class ChatsController {
             });
         } catch (e: any) {
             console.log('Request error:', e);
-            return null;
         }
     }
 
@@ -80,7 +79,7 @@ class ChatsController {
 
     async getSocket(chatId: number) {
         try {
-        if (store.getState().currentUser !== undefined) {
+            if (store.getState().currentUser !== undefined) {
                 const userId = store.getState().currentUser?.id;
                 const token = await this.getToken(chatId);
             if (userId && chatId && token) {

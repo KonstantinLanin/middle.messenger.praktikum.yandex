@@ -5,6 +5,7 @@ export interface InputProps {
     onChange?: () => void;
     onFocus?: () => void;
     onBlur?: (e: FocusEvent) => void;
+    id?: string,
     value?: string;
     styles?: string;
     type?: 'text' | 'password' | 'email' | 'phone';

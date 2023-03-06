@@ -23,7 +23,7 @@ export class Form extends Block<FormProps> {
             <div class="container">
                 <div class="container-flex-wrap">
                     <div class="{{formWrap}}">
-                        <form class="form">
+                        <form class="form" id="{{id}}>
                         <span class="form-title"> {{title}}</span>
                         <div data-slot=1></div>
                         </form>

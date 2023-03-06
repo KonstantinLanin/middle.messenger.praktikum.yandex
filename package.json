@@ -20,6 +20,8 @@
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.9",
     "@babel/core": "7.21.0",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-typescript": "7.21.0",
     "@parcel/plugin": "2.8.3",
     "@types/chai": "4.3.4",
     "@types/mocha": "10.0.1",

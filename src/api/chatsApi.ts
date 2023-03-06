@@ -41,7 +41,7 @@ export default class ChatsApi extends BaseAPI {
         super('/chats');
     }
 
-    create(title: string): Promise<unknown> {
+    create(title: string): Promise<{id:number}> {
         return this.http.post('/', { title });
     }
 
@@ -49,7 +49,7 @@ export default class ChatsApi extends BaseAPI {
         return this.http.delete('/', { chatId: id });
     }
 
-    read(offset = 0, limit = 50, title = ''): Promise<unknown> {
+    read(offset = 0, limit = 50, title = ''): Promise<ChatData[]> {
         return this.http.get(`?offset=${offset}&limit=${limit}&title=${title}`);
     }
 
@@ -65,7 +65,7 @@ export default class ChatsApi extends BaseAPI {
         return this.http.post<{ token: string }>(`/token/${id}`);
     }
 
-    changeAvatar(data: any): Promise<unknown> {
+    changeAvatar(data: any): Promise<ChatData> {
         return this.http.put('/avatar', data, ContentType.formData);
     }
 

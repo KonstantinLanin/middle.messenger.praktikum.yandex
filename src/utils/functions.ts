@@ -82,45 +82,37 @@ export type Indexed<T = any> = {
     return true;
     }
 
-    export const queryStringify = (data: Record<string, string>): string => {
-    if (typeof data !== 'object') {
-        throw new Error('Not object');
-    }
-    const keys = Object.keys(data);
-    return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
-    };
-
     export function getDatetime(date: Date, full = false) {
-    const now = new Date();
-    const year = date.getFullYear() === now.getFullYear();
-    const month = date.getMonth() === now.getMonth();
-    const day = date.getDate() === now.getDate();
-    const monthArray = [
-        'Янв',
-        'Фев',
-        'Мар',
-        'Апр',
-        'Май',
-        'Июн',
-        'Июл',
-        'Авг',
-        'Сен',
-        'Окт',
-        'Ноя',
-        'Дек',
-    ];
-    if (year && month && day) {
-        return `${date.getHours()}:${date.getMinutes()}`;
-    }
-    if (year && full) {
-        return `${date.getDate()} ${
-        monthArray[date.getMonth()]
-        } ${date.getHours()}:${date.getMinutes()}`;
-    }
-    if (year) {
-        return `${date.getDate()} ${monthArray[date.getMonth()]}`;
-    }
-    return `${date.getFullYear()}`;
+        const now = new Date();
+        const year = date.getFullYear() === now.getFullYear();
+        const month = date.getMonth() === now.getMonth();
+        const day = date.getDate() === now.getDate();
+        const monthArray = [
+            'Янв',
+            'Фев',
+            'Мар',
+            'Апр',
+            'Май',
+            'Июн',
+            'Июл',
+            'Авг',
+            'Сен',
+            'Окт',
+            'Ноя',
+            'Дек',
+        ];
+        if (year && month && day) {
+            return `${date.getHours()}:${date.getMinutes()}`;
+        }
+        if (year && full) {
+            return `${date.getDate()} ${
+            monthArray[date.getMonth()]
+            } ${date.getHours()}:${date.getMinutes()}`;
+        }
+        if (year) {
+            return `${date.getDate()} ${monthArray[date.getMonth()]}`;
+        }
+        return `${date.getFullYear()}`;
     }
 
     export function onModal(elId:string) {
@@ -139,6 +131,14 @@ export type Indexed<T = any> = {
         }
     };
     }
+
+    export const queryStringify = (data: Record<string, string>): string => {
+        if (typeof data !== 'object') {
+            throw new Error('Not object');
+        }
+            const keys = Object.keys(data);
+            return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
+    };
 
     export function onAvatarChange(id: string): FormData {
     const avatar = document.createElement('input');

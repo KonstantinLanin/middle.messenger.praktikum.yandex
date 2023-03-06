@@ -18,7 +18,6 @@ class AccountController {
             this.router.go(routes.account);
         } catch (e: any) {
             console.log('Update account request error:', e);
-            return null;
         }
     }
 
@@ -28,7 +27,6 @@ class AccountController {
             await AuthController.fetchUser();
         } catch (e: any) {
             console.log('Update avatar request error:', e);
-            return null;
         }
     }
 
@@ -56,7 +54,6 @@ class AccountController {
             this.router.back();
         } catch (e: any) {
             console.log('Transition error', e);
-            return null;
         }
     }
 
@@ -65,7 +62,6 @@ class AccountController {
             this.router.go(routes.chats);
         } catch (e: any) {
             console.log('Transition error', e);
-            return null;
         }
     }
 

@@ -16,7 +16,7 @@ export class Link extends Block<LinkProps> {
     static componentName = 'Link';
 
     constructor({
-        linkWrap, styles, href, background, title, linkBroder,
+        linkWrap, styles, href, background, title, tooltip, linkBroder,
     }: LinkProps) {
         const onClick = (e: MouseEvent) => {
             // console.log('link click', e.offsetX);
@@ -25,7 +25,7 @@ export class Link extends Block<LinkProps> {
         };
 
         super({
-            linkWrap, styles, href, background, title, linkBroder, events: { click: onClick },
+            linkWrap, styles, href, background, title, tooltip, linkBroder, events: { click: onClick },
         });
     }
 

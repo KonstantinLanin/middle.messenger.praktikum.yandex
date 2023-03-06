@@ -23,7 +23,7 @@ export class Button extends Block<ButtonProps> {
         <div class="button-container">
             <div class="button-wrap">
             <div class="{{background}}"></div>
-                <button class="{{styles}}" type="{{type}}">
+                <button class="{{styles}}" type="{{type}}" title="{{title}}">
                     {{label}}
                 </button>
             </div>
