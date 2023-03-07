@@ -4,7 +4,7 @@
   "description": "simple chat",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel -p 3000 src/index.html  --no-cache --open",
+    "dev": "parcel -p 3000 src/index.html  --no-cache",
     "build": "parcel build src/index.html --no-cache --public-url ./",
     "start": "parcel src/index.html && node ./server.js ",
     "eslint": "./node_modules/.bin/eslint . --fix",

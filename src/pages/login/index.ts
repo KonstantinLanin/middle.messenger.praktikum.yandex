@@ -62,7 +62,7 @@ export class LoginBase extends Block<LoginDataProps> {
             {{{Link title="Register"
                     linkWrap="link-wrap"
                     styles="link"
-                    href="/registration"
+                    href="/sign-up"
             }}}
 
         {{/Form}}

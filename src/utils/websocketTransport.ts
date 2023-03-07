@@ -51,59 +51,62 @@ export class ChatWebSocket {
 
     private _message(data: unknown) {
         if (Array.isArray(data)) {
-        data = data.map((message) => {
-            if (message.time) {
-            message.time = getDatetime(new Date(message.time), true);
+            data = data.map((message) => {
+                if (message.time) {
+                    message.time = getDatetime(new Date(message.time), true);
+                }
+                    message.isMine = (store.getState().currentUser?.id === message.user_id);
+                    return message;
+                });
+                store.set('messages', { list: (data as []) }, true);
+                } else if (isPlainObject(data) && data.type && data.type === 'message') {
+                    this.getMessages();
+                }
             }
-            message.isMine = (store.getState().currentUser?.id === message.user_id);
-            return message;
-        });
-        store.set('messages', { list: (data as []) }, true);
-        } else if (isPlainObject(data) && data.type && data.type === 'message') {
-        this.getMessages();
-        }
-    }
 
     private _addSocketEventListeners() {
         this.socket.addEventListener('open', () => {
         this.eventBus().emit(ChatWebSocket.EVENTS.OPEN);
-        });
+    });
 
         this.socket.addEventListener('close', (event) => {
-        if (event.wasClean) {
-            console.log('Connection closed');
-        } else {
-            console.log('Lost connection');
-        }
-        console.log(`Code: ${event.code} | Reason: ${event.reason}`);
-        this.eventBus().emit(ChatWebSocket.EVENTS.CLOSE);
+            if (event.wasClean) {
+                console.log('Connection closed');
+            } else {
+                console.log('Lost connection');
+            }
+                console.log(`Code: ${event.code} | Reason: ${event.reason}`);
+                this.eventBus().emit(ChatWebSocket.EVENTS.CLOSE);
         });
 
         this.socket.addEventListener('message', (event) => {
-        const data = JSON.parse(event.data);
-        if (data.type && data.type === 'pong') {
-            return;
-        }
-        this.eventBus().emit(ChatWebSocket.EVENTS.MESSAGE, data);
-        });
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type && data.type === 'pong') {
+                    return;
+                }
+                this.eventBus().emit(ChatWebSocket.EVENTS.MESSAGE, data);
+            } catch (e:any){
+                console.log('Error:', e)
+        }});
 
         this.socket.addEventListener('error', (event) => {
-        console.log('Ошибка', event);
-        this.eventBus().emit(ChatWebSocket.EVENTS.ERROR);
+            console.log('Error', event);
+            this.eventBus().emit(ChatWebSocket.EVENTS.ERROR);
         });
     }
 
     public sendMessage(content:string, type:MessageType = MessageType.MESSAGE) {
         this.socket.send(JSON.stringify({
-        content,
-        type,
+            content,
+            type,
         }));
     }
 
     public getMessages(start = '0') {
         this.socket.send(JSON.stringify({
-        content: start,
-        type: 'get old',
+            content: start,
+            type: 'get old',
         }));
     }
 
@@ -113,8 +116,8 @@ export class ChatWebSocket {
 
     public getPing() {
         this.socket.send(JSON.stringify({
-        content: '',
-        type: 'ping',
+            content: '',
+            type: 'ping',
         }));
     }
 

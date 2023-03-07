@@ -59,7 +59,7 @@ export class ChatsBase extends Block<ChatsBaseProps> {
                 {{{Link title=login
                         tooltip="Profile settings"
                         styles="link-decor-marine chat-avatar-account-title"
-                        href="/account"
+                        href="/settings"
                         }}}
 
                 <div class="chat-button-align"> 

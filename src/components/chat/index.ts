@@ -103,7 +103,12 @@ export function selectedChat(): number {
             e.preventDefault();
             const messageData = new FormData(document.getElementById('messageForm') as HTMLFormElement);
             const formData = formatFormData(messageData);
-            await chatsController.sendMessage(formData.message);
+            // очень тороплюсь. отстаю от программы.
+            if (formData.message.length > 0){
+                await chatsController.sendMessage(formData.message);
+            } else {
+                return console.log("Value must not be empty");
+            }
         },
         });
     }

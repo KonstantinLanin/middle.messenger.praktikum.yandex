@@ -74,12 +74,12 @@ class AccountBase extends Block<AccountBaseProps> {
                 <div class="link-wrap">
                     {{{Link title="Edit account"
                             styles="link link-decor-marine"
-                            href="/accountEdit"
+                            href="/settings-edit"
                             linkBorder="link-decor-border"}}}
 
                     {{{Link title="Change password"
                             styles="link link-decor-marine"
-                            href="/accountChangePassword"
+                            href="/settings-change-password"
                             linkBorder="link-decor-border"}}}
 
                     {{{Button label="Logout" styles="link link-decor-red" onClick=onLogout}}}

@@ -50,7 +50,7 @@ export class AccountEditBase extends Block<AccountDataProps> {
                                 type="email"
                                 name="email"
                                 placeholder="sparky@yandex.ru"
-                                ref=email
+                                ref="email"
                                 id="email"
                                 value=email
                                 onFocus=onFocus

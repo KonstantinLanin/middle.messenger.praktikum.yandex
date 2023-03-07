@@ -3,11 +3,11 @@ import renderDOM from './renderDOM';
 
 export enum routes {
     start = '/',
-    registration = '/registration',
-    chats = '/chats',
-    account = '/account',
-    accountEdit = '/accountEdit',
-    accountChangePassword = '/accountChangePassword',
+    registration = '/sign-up',
+    chats = '/messenger',
+    account = '/settings',
+    accountEdit = '/settings-edit',
+    accountChangePassword = '/settings-change-password',
     error = '/error',
     linknav = '/linknav',
 }

@@ -13,7 +13,7 @@ export class Error extends Block {
                         {{{Link title="Back to chats"
                                 linkWrap="link-wrap"
                                 styles="link error-link"
-                                href="/chats" background="error-link-bg"}}}
+                                href="/messenger" background="error-link-bg"}}}
                     </div>
                 </div>
             </div>
