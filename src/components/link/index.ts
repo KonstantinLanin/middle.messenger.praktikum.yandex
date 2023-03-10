@@ -1,5 +1,4 @@
 import Block from '../../utils/block';
-
 import './link.css';
 
 interface LinkProps {
@@ -8,14 +7,16 @@ interface LinkProps {
     href: string;
     background?: string;
     title?: string;
+    tooltip?: string;
     linkBroder?: string;
+    events: Record<string, unknown>;
 }
 
 export class Link extends Block<LinkProps> {
     static componentName = 'Link';
 
     constructor({
-        linkWrap, styles, href, background, title, linkBroder,
+        linkWrap, styles, href, background, title, tooltip, linkBroder,
     }: LinkProps) {
         const onClick = (e: MouseEvent) => {
             // console.log('link click', e.offsetX);
@@ -24,14 +25,14 @@ export class Link extends Block<LinkProps> {
         };
 
         super({
-        linkWrap, styles, href, background, title, linkBroder, events: { click: onClick },
+            linkWrap, styles, href, background, title, tooltip, linkBroder, events: { click: onClick },
         });
     }
 
     protected render(): string {
         return `
                 <div class="{{linkWrap}}">
-                    <a class="{{styles}}" href="{{href}}">
+                    <a class="{{styles}}" href="{{href}} title="{{tooltip}}">
                         <div class="{{background}}"></div>
                         {{title}}
                     </a>

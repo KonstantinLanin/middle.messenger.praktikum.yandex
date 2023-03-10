@@ -2,13 +2,14 @@ import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './eventBus';
 
-interface BlockMeta<P = any> {
-    props: P;
-}
+type Events = Values<typeof Block.EVENTS>;
 
-type Events = Values <typeof Block.EVENTS>;
+export interface BlockClass<P> extends Function {
+    new (props: P): Block<P>;
+    componentName?: string;
+    }
 
-export default class Block<P = any> {
+    export default class Block<P = any> {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',
@@ -17,41 +18,23 @@ export default class Block<P = any> {
     } as const;
 
     static componentName: string;
-
     public id = nanoid(6);
-
-    private readonly _meta: BlockMeta;
-
     protected _element: Nullable<HTMLElement> = null;
-
-    protected readonly props: P;
-
+    protected props: P;
     protected children: { [id: string]: Block } = {};
-
     eventBus: () => EventBus<Events>;
-
     protected state: any = {};
-
-    public refs: { [key: string]: Block } = {};
+    protected refs: { [key: string]: Record<string, Block> } = {};
 
     public constructor(props?: P) {
         const eventBus = new EventBus<Events>();
-
-        this._meta = {
-        props,
-        };
-
-    this.getStateFromProps(props);
-
-    this.props = this._makePropsProxy(props || ({} as P));
-    this.state = this._makePropsProxy(this.state);
-
-    this.eventBus = () => eventBus;
-
-    this._registerEvents(eventBus);
-
-    eventBus.emit(Block.EVENTS.INIT, this.props);
-}
+        this.getStateFromProps(props);
+        this.props = props || ({} as P); 
+        this.state = this._makePropsProxy(this.state);
+        this.eventBus = () => eventBus;
+        this._registerEvents(eventBus);
+        eventBus.emit(Block.EVENTS.INIT, this.props);
+    }
 
     _registerEvents(eventBus: EventBus<Events>) {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -82,7 +65,7 @@ export default class Block<P = any> {
     _componentDidUpdate(oldProps: P, newProps: P) {
         const response = this.componentDidUpdate(oldProps, newProps);
         if (!response) {
-        return;
+            return;
         }
         this._render();
     }
@@ -91,19 +74,21 @@ export default class Block<P = any> {
         return true;
     }
 
-    setProps = (nextProps: P) => {
-        if (!nextProps) {
-        return;
+    setProps = (nextPartialProps: Partial<P>) => { 
+        if (!nextPartialProps) {
+            return;
         }
 
-        Object.assign(this.props, nextProps);
+        const prevProps = this.props; 
+        const nextProps = { ...prevProps, ...nextPartialProps };
+        this.props = nextProps;
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
     };
 
     setState = (nextState: any) => {
         if (!nextState) {
-        return;
+            return;
         }
-
         Object.assign(this.state, nextState);
     };
 
@@ -113,12 +98,9 @@ export default class Block<P = any> {
 
     _render() {
         const fragment = this._compile();
-
         this._removeEvents();
         const newElement = fragment.firstElementChild!;
-
         this._element!.replaceWith(newElement);
-
         this._element = newElement as HTMLElement;
         this._addEvents();
     }
@@ -131,9 +113,9 @@ export default class Block<P = any> {
         if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
         setTimeout(() => {
             if (
-            this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+                this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
             ) {
-            this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+                this.eventBus().emit(Block.EVENTS.FLOW_CDM);
             }
         }, 100);
         }
@@ -141,8 +123,7 @@ export default class Block<P = any> {
         return this.element!;
     }
 
-    _makePropsProxy(props: any): any {
-
+    _makePropsProxy(props: P): any {
         const self = this;
 
         return new Proxy(props as unknown as object, {
@@ -157,7 +138,7 @@ export default class Block<P = any> {
             return true;
         },
         deleteProperty() {
-            throw new Error('Нет доступа');
+            throw new Error('No acces');
         },
         }) as unknown as P;
     }
@@ -170,29 +151,31 @@ export default class Block<P = any> {
         const { events } = this.props as any;
 
         if (!events || !this._element) {
-        return;
+            return;
         }
 
         Object.entries(events).forEach(([event, listener]) => {
-        this._element!.removeEventListener(event, listener);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+            this._element!.removeEventListener(event, listener);
         });
     }
 
     _addEvents() {
         const { events } = this.props as any;
-
         if (!events) {
-        return;
+            return;
         }
 
         Object.entries(events).forEach(([event, listener]) => {
-        this._element!.addEventListener(event, listener);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+            this._element!.addEventListener(event, listener);
         });
     }
 
     _compile(): DocumentFragment {
         const fragment = document.createElement('template');
-
         const template = Handlebars.compile(this.render());
         fragment.innerHTML = template({
         ...this.state,
@@ -202,8 +185,7 @@ export default class Block<P = any> {
         });
 
         Object.entries(this.children).forEach(([id, component]) => {
-
-        const stub = fragment.content.querySelector(`[data-id="${id}"]`);
+            const stub = fragment.content.querySelector(`[data-id="${id}"]`);
 
         if (!stub) {
             return;
@@ -214,10 +196,11 @@ export default class Block<P = any> {
         const content = component.getContent();
         stub.replaceWith(content);
 
-        const layoutContent = content.querySelector('[data-layout="1"]');
+        const slotContent = content.querySelector('[data-slot="1"]') as HTMLDivElement;
 
-        if (layoutContent && stubChilds.length) {
-            layoutContent.append(...stubChilds);
+        if (slotContent && stubChilds.length) {
+            slotContent.append(...stubChilds);
+            delete slotContent.dataset.slot;
         }
         });
 

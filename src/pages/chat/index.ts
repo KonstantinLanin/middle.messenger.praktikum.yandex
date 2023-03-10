@@ -1,135 +1,147 @@
 import Block from '../../utils/block';
 import './chat.css';
+import store, { withUser } from '../../utils/store';
+import AuthController from '../../controllers/loginController';
+import ChatsController from '../../controllers/chatsController';
+import { onModal } from '../../utils/functions';
 
-type ChatPageProps = {
-    accountName: string;
-    chatlistItems: { displayName: string; messageTime: string; avatar: string; message: string; messageCount: number}[];
-    isChat: boolean;
+interface ChatsBaseProps {
+    onLogout: () => void;
+    onAddChatModal: () => void;
+    onAddChat: () => void;
+    onItemClick: (e: Event) => void;
+    onChangeInputSearch: () => void;
 }
 
-export class Chat extends Block {
-    constructor({ ...props }: ChatPageProps) {
-        super({ ...props });
-    }
+export class ChatsBase extends Block<ChatsBaseProps> {
+    constructor(props: ChatsBaseProps) {
+        super({
+        ...props,
+        onLogout: () => AuthController.logout(),
 
-    protected getStateFromProps() {
-        this.state = {
-        ItemClick: (e: FocusEvent) => {
-            console.log('itemClick', e.target);
+        onAddChatModal: () => onModal('ModalNewChat'),
+
+        onAddChat: async () => {
+                const chatName = (document.getElementsByName('chatName')[0] as HTMLInputElement).value;
+            if (chatName) {
+                await ChatsController.create(chatName);
+            }
         },
-        onMessage: () => {
-            const chatData: Record<string, unknown> = {};
-            chatData.message = document.querySelector('[name="message"]').value;
-            console.log('chat/message', chatData);
+
+        onItemClick: async (e: Event) => {
+            const el = (e.target as HTMLElement).closest('.chatlist-item') as HTMLElement;
+
+            if (el.hasAttribute('data-itemId')) {
+                e.preventDefault();
+                const itemId = Number(el.getAttribute('data-itemId'));
+
+            if (store.getState().chats?.chatList[itemId]) {
+                await ChatsController.select(itemId);
+            }
+            }
         },
-        };
+
+        onChangeInputSearch: async () => {
+            const searchValue = (document.getElementsByName('search')[0] as HTMLInputElement).value;
+            await ChatsController.search(searchValue);
+        },
+
+        });
     }
 
     render() {
         return `
-            <div class="chat-container">
-                <div class="chatlist-container">
-                    <div class="chatlist-content-wrap-container">
-                        {{{Avatar styles="avatar-chat-default"}}}
-                        <span class="chat-avatar-account-title"> {{accountName}} </span>
-                
-                        {{{Button type="submit" 
-                                styles="button-chat-form  
-                                button-background-exit-right"
-                        }}}
-                </div>
-            <div class="line-decor-wrap"><div class="line-decor-marine"></div></div>
+        <div class="chat-container">
+            <div class="chatlist-container">
             <div class="chatlist-content-wrap-container">
-                {{{Button type="submit"
-                    styles="button-chat-form 
-                    button-background-add"
-                }}}
+                {{{Avatar styles="avatar-chatlist-default" avatar=avatar}}}
+
+                {{{Link title=login
+                        tooltip="Profile settings"
+                        styles="link-decor-marine chat-avatar-account-title"
+                        href="/settings"
+                        }}}
+
+                <div class="chat-button-align"> 
+                    {{{Button title="Logout" styles="button-chats-form button-background-exit-right" onClick=onLogout}}} 
+                </div>
+            </div>
+            <div class="line-decor-wrap"><div class="line-decor"></div></div>
+            <div class="chatlist-content-wrap-container">
+                {{{Button title="Add new chat" styles="button-chats-form button-background-add" onClick=onAddChatModal}}}
                 <div class="search-wrap">
-                    {{{Input
+                {{{Input
                         ref="search"
                         styles="input input-icon-left input-search"
                         type="text"
                         name="search"
                         id="search"
+                        value=searchValue 
                         placeholder="Search"
                         onFocus=onFocus
                         onBlur=onBlur
-                        onChange=onChange
-                    }}}
+                        onChange=onChangeInputSearch
+                }}}
                 </div>
             </div>
-            <div class="chatlist-content-wrap-container chatlist-items-container">
+            
+            {{#Chatlist onClick=onItemClick}}
 
-                {{#each chatlistItems}}
-                    {{#with this}}
-                        {{{ChatlistItem
-                            displayName=displayName
-                            messageTime=messageTime
-                            avatar=avatar
-                            message=message
-                            messageCount=messageCount
-                            id="chatlistItem"
-                            onClick=ItemClick
-                        }}}
-                    {{/with}}
+                {{#each chatList}}
+                {{#with this}}
+                    {{{ChatlistItem
+                        chatlistItemId=id
+                        displayName=title
+                        messageTime=last_message.time
+                        avatar=avatar
+                        message=last_message.content
+                        user=last_message.user.login
+                        messageCount=unread_count
+                        id=id
+                        selectedChat=selected
+                    }}}
+                {{/with}}
                 {{/each}}
 
-                </div>
+                {{/Chatlist }}
+                
             </div>
             <div class="chatarea-container">
-                <div class="chat-wrap">
-
-                    {{#if isChat}}
-                        
-                        <div class="chat-recipient">
-                            {{{Avatar styles="avatar-chatlist"}}}
-                            <span class="chat-avatar-account-title"> First </span>
-                            <div class="chat-button-align"> 
-                                {{{Button type="submit"
-                                        styles="button-chat-form 
-                                        button-background-dots"
-                                }}}
-                            </div>
-                        </div>
-                        <div class="chat-content">
-                        <div class="message-me">Привет!</div>
-                        <div class="message-recepient">Йоу</div>
-
-                        </div>
-                        <div class="chat-form">
-                        {{{Button type="submit"
-                            styles="button-chat-form 
-                            button-background-clip"
-                        }}}
-                        <div class="search-wrap">
-                            {{{Input
-                                ref="message"
-                                styles="input"
-                                type="text"
-                                name="message"
-                                id="message"
-                                placeholder="Message"
-                                onFocus=onFocus
-                                onBlur=onBlur
-                                onChange=onChange
-                            }}}
-                        </div>
-                        {{{Button type="submit"
-                            styles="button-chat-form button-background-right-arrow"
-                            onClick=onMessage
-                        }}}
-                    </div>
+                
+                {{{Chat}}}
                     
-                    {{else}}
-                    
-                    <div class="chat-text-wrap">
-                        <span class="chat-text">Select a chat to send a message</span>
-                    </div>
-                    
-                    {{/if}}
-                    
-                </div>
+                
             </div>
+            
+            {{#Modal id="ModalNewChat"}}
+                {{#Form  title="New chat" formWrap="form-login-wrap"}}
+
+                    {{{Input
+                            styles="input input-icon-left input-login"
+                            type="text"
+                            name="chatName"
+                            id="chatName"
+                            placeholder="Chat name"
+                            onFocus=onFocus
+                            onBlur=onBlur
+                            onChange=onChange
+                    }}}
+                    <div class="account-input-border"></div>
+                    <br>
+                    {{{Button
+                            label="Forward"
+                            styles="button-form"
+                            background="button-background-main"
+                            onClick=onAddChat
+                    }}}
+
+                {{/Form}}
+            {{/Modal}}
+            
         </div>
+
         `;
-}}
+    }
+}
+
+export const Chats = withUser(ChatsBase);

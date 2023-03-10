@@ -16,10 +16,10 @@ export class AccountLayout extends Block<AccountLayoutProps> {
         return `
                 <div class="account-container">
                     <div class="account-button-container">
-                        {{{Button type="submit" styles="button-account-form button-background-left-arrow" }}}
+                        {{{Button  styles="button-account-form button-background-left-arrow" onClick=onClick }}}
                     </div>
                     <div class="account-form-container">
-                        <div data-layout=1></div>
+                        <div data-slot=1></div>
                     </div>
                 </div>
         `;

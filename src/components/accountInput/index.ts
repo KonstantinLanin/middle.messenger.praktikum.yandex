@@ -37,7 +37,7 @@ protected render(): string {
         <div class="account-input-wrap">
             <div class="account-input-label-wrap">
                 <span class="account-input-label">{{title}}</span>
-                {{{Input
+                {{{Input 
                         title=title
                         styles=styles
                         type=type
@@ -46,6 +46,8 @@ protected render(): string {
                         onFocus=onFocus
                         onBlur=onBlur
                         onChange=onChange
+                        id=id
+                        value=value
                 }}}
             </div>
             <div class="account-input-border"></div>

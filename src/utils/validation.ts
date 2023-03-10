@@ -6,10 +6,12 @@ export enum ValidationType {
     display_name = "display_name",
     login = "login",
     email = "email",
-    old_password = "old_password",
-    password = "password",
-    repeat_password = "repeat_password",
+    oldPassword = 'oldPassword',
+    newPassword = 'newPassword',
+    password = 'password',
+    repeatPassword = 'repeatPassword',
     phone = "phone",
+    addUser = 'addUser'
 }
 
 class UnreachableCaseError extends Error {
@@ -60,6 +62,7 @@ class Validator {
         case false:
             switch (type) {
             case ValidationType.login:
+            case ValidationType.addUser:
                 return this.login(value);
             case ValidationType.first_name:
             case ValidationType.second_name:
@@ -67,10 +70,11 @@ class Validator {
                 return this.dname(value);
             case ValidationType.email:
                 return this.email(value);
-            case ValidationType.password:
-            case ValidationType.old_password:
-            case ValidationType.repeat_password:
-                return this.password(value);
+                case ValidationType.password:
+                case ValidationType.newPassword:
+                case ValidationType.oldPassword:
+                case ValidationType.repeatPassword:
+                    return this.password(value);
             case ValidationType.phone:
                 return this.phone(value);
             default:
@@ -86,18 +90,22 @@ class Validator {
     export function Validation(
     inputs: NodeListOf<HTMLInputElement>,
     refs: {
-        [x: string]: block<any>;
+        [x: string]: Record<string, block<any>>;
         login?: any;
         password?: any;
         email?: any;
         first_name?: any;
         second_name?: any;
         phone?: any;
-        repeat_password?: any;
-    }
-    ): Record<string, unknown> {
-    const loginData: Record<string, unknown> = {};
-    const validator = new Validator();
+        repeatPassword?: any;
+        newPassword?: any;
+        oldPassword?: any;
+    },
+    ): [Record<string, unknown>, boolean] {
+        const loginData: Record<string, unknown> = {};
+        const validator = new Validator();
+        const isValid = true;
+        let validation = true;
 
     inputs.forEach((input) => {
         loginData[input.name] = input.value;
@@ -105,6 +113,10 @@ class Validator {
         <ValidationType>input.name,
         input.value
         );
+
+        if (!valid && isValid) {
+            validation = !isValid;
+        }
 
         if (input.name === "login") {
         refs.login.refs.error.setProps({
@@ -155,20 +167,27 @@ class Validator {
         });
         }
 
-        if (input.name === "repeat_password") {
-        refs.repeat_password.refs.error.setProps({
+        if (input.name === "repeatPassword") {
+        refs.repeatPassword.refs.error.setProps({
             isValid: valid,
             validateMessage: text,
         });
         }
 
-        if (input.name === "old_password") {
-        refs.old_password.refs.error.setProps({
+        if (input.name === "oldPassword") {
+        refs.oldPassword.refs.error.setProps({
             isValid: valid,
             validateMessage: text,
         });
+        }
+
+        if (input.name === 'newPassword') {
+            refs.newPassword.refs.error.setProps({
+                isValid: valid,
+                validateMessage: text,
+            });
         }
 
     });
-    return loginData;
+    return [loginData, validation];
     }
