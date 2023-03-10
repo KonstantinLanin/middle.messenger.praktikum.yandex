@@ -1,0 +1,9 @@
+:root {
+    --screen-content-background: #fff;
+    --button-background: blue;
+    --button-background-purple: rgb(164 158 171 / 59%);
+    --avatar-background: rgb(236 246 249);
+    --link-decor-marine: blue;
+    --input-border: blue;
+    --message-color: #fff;
+}
