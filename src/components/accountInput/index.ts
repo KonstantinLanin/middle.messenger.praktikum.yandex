@@ -1,5 +1,5 @@
 import Block from '../../utils/block';
-import { InputProps } from '../input';
+import { InputProps } from '../input/index';
 import Validator, { ValidationType } from '../../utils/validation';
 import './accountInput.css';
 
@@ -10,7 +10,7 @@ interface AccountInputProps extends InputProps {
     isValid: boolean;
 }
 
-export class AccountInput extends Block<AccountInputProps> {
+export class AccountInput extends Block <AccountInputProps> {
     static componentName = 'AccountInput';
 
     constructor({
@@ -23,6 +23,8 @@ export class AccountInput extends Block<AccountInputProps> {
             const { value } = input;
             const { name } = input;
             const [flag, text] = Validator.validate(<ValidationType>name, value);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             this.refs.error.setProps({
                 isValid: flag,
                 validateMessage: text,

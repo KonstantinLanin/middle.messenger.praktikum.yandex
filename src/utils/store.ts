@@ -2,6 +2,7 @@
 import { isEqual, set } from './functions';
 import { UserData } from '../api/loginApi';
 import EventBus from './eventBus';
+// @ts-ignore
 import { BlockClass } from './block';
 import { ChatData, ChatMessages, SelectedData } from '../api/chatsApi';
 

@@ -1,33 +1,33 @@
-import { registerComponent } from './utils';
+import registerComponent  from './utils/registerComponent';
 import Router, { routes } from './utils/router';
 import AuthController from './controllers/loginController';
 import ChatsController from './controllers/chatsController';
 import store from './utils/store';
 
-import { Login } from './pages/login';
-import { Error } from './pages/error';
-import { Account } from './pages/account';
-import { Registration } from './pages/registration';
-import { AccountChangePassword } from './pages/accountChangePassword';
-import { AccountEdit } from './pages/accountEdit';
-import { Chats } from './pages/chat';
+import { Login } from './pages/login/index';
+import { Error } from './pages/error/index';
+import { Account } from './pages/account/index';
+import { Registration } from './pages/registration/index';
+import { AccountChangePassword } from './pages/accountChangePassword/index';
+import { AccountEdit } from './pages/accountEdit/index';
+import { Chats } from './pages/chat/index';
 
 import './main.css';
 
-import { Button } from './components/button';
-import { Link } from './components/link';
-import { Form } from './components/form';
-import { Input } from './components/input';
-import { WrappedInput } from './components/wrappedInput';
-import { AccountInput } from './components/accountInput';
-import { ErrorInput } from './components/errorInput';
-import { AccountLayout } from './components/accountPage';
-import { Avatar } from './components/avatar';
-import { Chatlist } from './components/chatlist';
-import { ChatlistItem } from './components/chatlistItem';
-import { Chat } from './components/chat';
-import { Message } from './components/chatMessage';
-import { Modal } from './components/modal';
+import { Button } from './components/button/index';
+import { Link } from './components/link/index';
+import { Form } from './components/form/index';
+import { Input } from './components/input/index';
+import { WrappedInput } from './components/wrappedInput/index';
+import { AccountInput } from './components/accountInput/index';
+import { ErrorInput } from './components/errorInput/index';
+import { AccountLayout } from './components/accountPage/index';
+import { Avatar } from './components/avatar/index';
+import { Chatlist } from './components/chatlist/index';
+import { ChatlistItem } from './components/chatlistItem/index';
+import { Chat } from './components/chat/index';
+import { Message } from './components/chatMessage/index';
+import { Modal } from './components/modal/index';
 
 require('babel-core/register');
 
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     registerComponent(Avatar);
     registerComponent(Chatlist);
     registerComponent(ChatlistItem);
+    // @ts-ignore
     registerComponent(Chat);
     registerComponent(Message);
     registerComponent(Modal);

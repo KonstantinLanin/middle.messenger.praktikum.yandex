@@ -1,4 +1,5 @@
-import Block from './block';
+// @ts-ignore
+import Block, { BlockClass } from './block';
 import renderDOM from './renderDOM';
 
 export enum routes {
@@ -13,7 +14,7 @@ export enum routes {
 }
 
 class Route {
-    private pathname: string;
+    pathname: string;
     private readonly BlockClass: typeof Block;
     private block: Block | null;
     private props: any;
@@ -52,8 +53,8 @@ class Route {
     export default class Router {
         private static __instance: Router;
         private routes: Route[] = [];
-        private history = window.history;
-        private currentRoute: Route | null = null;
+        history = window.history;
+        currentRoute: Route | null = null;
         constructor() {
             if (Router.__instance) {
                 return Router.__instance;
@@ -61,7 +62,8 @@ class Route {
             Router.__instance = this;
         }
 
-        public use(pathname: string, block: typeof Block) {
+        // @ts-ignore
+        public use(pathname: string, block: typeof BlockClass) {
             try {
                 const route = new Route(pathname, block, { rootQuery: '#app' });
                 this.routes.push(route);
@@ -112,7 +114,8 @@ class Route {
     router: Router;
     }
 
-    export function withRouter(Component: typeof Block) {
+    // @ts-ignore
+    export function withRouter(Component: typeof BlockClass) {
         return class WithRouter extends Component {
             public static componentName = Component.name;
 

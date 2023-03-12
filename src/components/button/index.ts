@@ -3,12 +3,13 @@ import './button.css';
 
 interface ButtonProps {
     label: string;
-    background: string;
-    styles: string;
+    title?: string;
+    background?: string;
+    styles?: string;
     type?: "button" | "submit";
-    onClick: () => void;
-    onSubmit: () => void;
-    events: Record<string, unknown>;
+    onClick?: () => void;
+    onSubmit?: () => void;
+    events?: Record<string, unknown>;
 }
 
 export class Button extends Block<ButtonProps> {

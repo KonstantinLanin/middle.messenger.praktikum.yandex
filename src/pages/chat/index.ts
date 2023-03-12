@@ -13,7 +13,7 @@ interface ChatsBaseProps {
     onChangeInputSearch: () => void;
 }
 
-export class ChatsBase extends Block<ChatsBaseProps> {
+export class ChatsBase extends Block <ChatsBaseProps> {
     constructor(props: ChatsBaseProps) {
         super({
         ...props,
@@ -34,7 +34,8 @@ export class ChatsBase extends Block<ChatsBaseProps> {
             if (el.hasAttribute('data-itemId')) {
                 e.preventDefault();
                 const itemId = Number(el.getAttribute('data-itemId'));
-
+            
+            // @ts-ignore    
             if (store.getState().chats?.chatList[itemId]) {
                 await ChatsController.select(itemId);
             }
