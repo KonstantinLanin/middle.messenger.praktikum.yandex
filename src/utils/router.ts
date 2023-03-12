@@ -14,7 +14,7 @@ export enum routes {
 }
 
 class Route {
-    pathname: string;
+  pathname: string;
     private readonly BlockClass: typeof Block;
     private block: Block | null;
     private props: any;

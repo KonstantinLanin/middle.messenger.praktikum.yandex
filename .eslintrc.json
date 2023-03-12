@@ -1,13 +1,72 @@
 {
-  "rules": {
-    "no-unused-vars": 2,
-    "max-len": [
-      1,
-      100
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "settings": {
+    "max-len": 120,
+    "import/extensions": [
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".mjs",
+      ".jpg",
+      ".svg",
+      ".hbs"
     ],
-    "max-params": [
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".jpg",
+          ".svg",
+          ".hbs"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "max-len": [
       2,
-      3
+      150
+    ],
+    "no-console": [
+      "off"
+    ],
+    "import/no-unresolved": 0,
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
+        "mjs": "never",
+        "": "never"
+      }
     ]
-  }
+  },
+  "ignorePatterns": [
+    "/dist/*",
+    "**/*.min.js",
+    "/node_modules",
+    "/src/**/*.test.ts"
+  ]
 }
