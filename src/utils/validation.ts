@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import block from "./block";
 
 export enum ValidationType {
@@ -154,6 +155,7 @@ class Validator {
         }
 
         if (input.name === "display_name") {
+        // @ts-ignore
         refs.display_name.refs.error.setProps({
             isValid: valid,
             validateMessage: text,
