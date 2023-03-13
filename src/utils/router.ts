@@ -1,4 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line max-classes-per-file
 import Block, { BlockClass } from './block';
 import renderDOM from './renderDOM';
 
@@ -62,6 +64,7 @@ class Route {
             Router.__instance = this;
         }
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         public use(pathname: string, block: typeof BlockClass) {
             try {
@@ -114,11 +117,12 @@ class Route {
     router: Router;
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     export function withRouter(Component: typeof BlockClass) {
         return class WithRouter extends Component {
             public static componentName = Component.name;
-
+            
             constructor(props: any) {
                 super({ ...props, router: new Router() });
             }

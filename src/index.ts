@@ -29,7 +29,7 @@ import { Chat } from './components/chat/index';
 import { Message } from './components/chatMessage/index';
 import { Modal } from './components/modal/index';
 
-require('babel-core/register');
+// require('babel-core/register');
 
 document.addEventListener('DOMContentLoaded', async () => {
     registerComponent(Button);
