@@ -33,7 +33,7 @@ export function selectedChat(): number {
     return currentChat!;
     }
 
-    export class ChatBase extends Block<ChatBaseProps> {
+    export class ChatBase extends Block <ChatBaseProps> {
     static componentName = 'Chat';
 
     private avatarData: unknown;
@@ -103,7 +103,6 @@ export function selectedChat(): number {
             e.preventDefault();
             const messageData = new FormData(document.getElementById('messageForm') as HTMLFormElement);
             const formData = formatFormData(messageData);
-            // очень тороплюсь. отстаю от программы.
             if (formData.message.length > 0){
                 await chatsController.sendMessage(formData.message);
             } else {

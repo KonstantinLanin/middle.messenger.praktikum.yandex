@@ -2,6 +2,10 @@ import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './eventBus';
 
+type Nullable<T> = T | null;
+type Keys<T extends Record<string, unknown>> = keyof T;
+type Values<T extends Record<string, unknown>> = T[Keys<T>];
+
 type Events = Values<typeof Block.EVENTS>;
 
 export interface BlockClass<P> extends Function {
@@ -9,7 +13,7 @@ export interface BlockClass<P> extends Function {
     componentName?: string;
     }
 
-    export default class Block<P = any> {
+export default class Block<P = any> {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',
@@ -20,7 +24,7 @@ export interface BlockClass<P> extends Function {
     static componentName: string;
     public id = nanoid(6);
     protected _element: Nullable<HTMLElement> = null;
-    protected props: P;
+    props: P;
     protected children: { [id: string]: Block } = {};
     eventBus: () => EventBus<Events>;
     protected state: any = {};
@@ -47,6 +51,7 @@ export interface BlockClass<P> extends Function {
         this._element = this._createDocumentElement('div');
     }
 
+    // @ts-expect-error
     protected getStateFromProps(props: any): void {
         this.state = {};
     }
@@ -60,6 +65,7 @@ export interface BlockClass<P> extends Function {
         this.componentDidMount(props);
     }
 
+    // @ts-expect-error
     componentDidMount(props: P) {}
 
     _componentDidUpdate(oldProps: P, newProps: P) {
@@ -70,6 +76,7 @@ export interface BlockClass<P> extends Function {
         this._render();
     }
 
+    // @ts-expect-error
     componentDidUpdate(oldProps: P, newProps: P) {
         return true;
     }

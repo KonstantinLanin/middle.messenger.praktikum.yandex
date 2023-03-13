@@ -62,9 +62,11 @@ export default class ChatsApi extends BaseAPI {
     }
 
     async getToken(id: number): Promise<{ token: string }> {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return this.http.post<{ token: string }>(`/token/${id}`);
     }
-
+    
     changeAvatar(data: any): Promise<ChatData> {
         return this.http.put('/avatar', data, ContentType.formData);
     }

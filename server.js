@@ -1,44 +1,36 @@
-const express = require("express");
-require("dotenv").config();
-const app = express();
+const path = require("path");
+const server = require("express");
+const app = server();
 
 const port = process.env.PORT || 3000;
 
-app.use(express.static(__dirname + "/dist"));
+app.use(server.static(path.join(__dirname, "/dist")));
 
 app.get("/", (req, res) => {
     res.status(200).sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.get("/login.html", (req, res) => {
-    res.sendFile(`${__dirname}/dist/index.html`);
-});
-
-app.get("/registration.html", (req, res) => {
+app.get("/sign-up", (req, res) => {
     res.status(200).sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.get("/chat.html", (req, res) => {
+app.get("/messenger", (req, res) => {
     res.status(200).sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.get("/account.html", (req, res) => {
+app.get("/settings", (req, res) => {
     res.status(200).sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.get("/account_change_password.html", (req, res) => {
+app.get("/settings-change-password", (req, res) => {
     res.status(200).sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.get("/account_edit.html", (req, res) => {
+app.get("/settings-edit", (req, res) => {
     res.status(200).sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.get("/error500.html", (req, res) => {
-    res.status(500).sendFile(`${__dirname}/dist/index.html`);
-});
-
-app.get("/error.html", (req, res) => {
+app.get("/error", (req, res) => {
     res.status(404).sendFile(`${__dirname}/dist/index.html`);
 });
 

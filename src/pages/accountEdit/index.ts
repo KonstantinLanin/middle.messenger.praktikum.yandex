@@ -5,11 +5,13 @@ import { withUser } from '../../utils/store';
 import AccountController from '../../controllers/accountController';
 import { AccountData } from '../../api/accountApi';
 import { onAvatarChange } from '../../utils/functions';
+import Router, { routes, withRouter } from '../../utils/router';
 
 interface AccountDataProps extends AccountData {
     onClick: () => void;
     onAvatarClick: () => void;
     onSave: () => void;
+    router: Router;
 }
 export class AccountEditBase extends Block<AccountDataProps> {
     private avatarData: unknown;
@@ -17,7 +19,7 @@ export class AccountEditBase extends Block<AccountDataProps> {
     constructor(props: AccountDataProps) {
         super({
             ...props,
-            onClick: () => AccountController.toAccount(),
+            onClick: () => props.router.go(routes.account),
             onAvatarClick: async () => {
                 this.avatarData = onAvatarChange('avatar');
             },
@@ -139,4 +141,4 @@ export class AccountEditBase extends Block<AccountDataProps> {
         `;
 }}
 
-export const AccountEdit = withUser(AccountEditBase);
+export const AccountEdit = withRouter(withUser(AccountEditBase));

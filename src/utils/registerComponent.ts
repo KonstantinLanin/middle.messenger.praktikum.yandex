@@ -29,7 +29,7 @@ export default function registerComponent<Props>(Component: BlockConstructable<P
         children[component.id] = component;
 
         if (ref) {
-        refs[ref] = component;
+            refs[ref] = component;
         }
 
         const contents = fn ? fn(this) : '';

@@ -1,5 +1,5 @@
 import Block from '../../utils/block';
-import { InputProps } from '../input';
+import { InputProps } from '../input/index';
 import Validator, { ValidationType } from '../../utils/validation';
 import './wrappedInput.css';
 
@@ -24,6 +24,7 @@ export class WrappedInput extends Block<WrappedInputProps> {
             const { value } = input;
             const { name } = input;
             const [valid, text] = Validator.validate(<ValidationType>name, value);
+            // @ts-ignore
             this.refs.error.setProps({
                 isValid: valid,
                 validateMessage: text,
